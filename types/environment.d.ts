@@ -2,6 +2,7 @@ declare global {
   namespace NodeJS {
     interface ProcessEnv {
       DISCORD_TOKEN: string;
+      GUILD_ID: string;
       NODE_ENV: 'development' | 'production';
     }
   }
