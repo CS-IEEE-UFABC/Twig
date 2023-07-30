@@ -1,3 +1,4 @@
+import { VoiceChannel } from "discord.js"
 import Bot from "../../bot"
 import { Event } from "../eventHandler"
 
@@ -7,9 +8,7 @@ export default class Hello implements Event {
     once: false
   }
 
-  async execute(bot: Bot) {
-    bot.logger.info(`Hello, World!! ${bot.client.user?.username} is ready!`)
-
-    bot.presence.update()
+  async execute(bot: Bot, oldVC: VoiceChannel, newVC: VoiceChannel) {
+    bot.presence.updateVCName(newVC)
   }
 }

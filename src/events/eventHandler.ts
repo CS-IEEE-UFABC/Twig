@@ -1,4 +1,4 @@
-import { Awaitable, Collection, Events } from "discord.js";
+import { Collection, Events } from "discord.js";
 import { statSync, readdirSync } from "node:fs"
 import { join } from "node:path"
 import Bot from "../bot";
