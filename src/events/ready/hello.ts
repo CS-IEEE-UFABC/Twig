@@ -9,10 +9,10 @@ export default class Hello implements Event {
   }
 
   async execute(bot: Bot) {
-    console.log(`Hello, World!! ${bot.client.user?.username} is ready!`)
+    bot.logger.info(`Hello, World!! ${bot.client.user?.username} is ready!`)
 
     bot.client.user?.setPresence({
-      activities: [{ name: "CS", type: ActivityType.Playing }],
+      activities: [{ name: "CS 🧡", type: ActivityType.Playing }],
       status: "idle"
     })
   }

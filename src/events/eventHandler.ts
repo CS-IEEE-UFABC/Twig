@@ -22,7 +22,7 @@ export default class EventHandler {
             try {
               this.loadEvent(eventNameDir, file);
             } catch (e) {
-              console.error(e);
+              this.bot.logger.error(e);
             }
           })
       })
@@ -50,7 +50,6 @@ export default class EventHandler {
         }
       }
 
-      console.log(`Event ${eventName}/${eventFile} loaded.`)
     } else {
       throw new Error(`Event ${eventName}/${eventName} does not have the required properties.`)
     }
