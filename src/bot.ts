@@ -2,12 +2,16 @@ import { Client, GatewayIntentBits } from 'discord.js';
 import logger from './utils/logger';
 import EventHandler from './events/eventHandler';
 import Presence from './utils/presence';
+import database from './utils/firebase';
+
 
 export default class Bot {
-  logger = logger;
   client: Client<boolean>;
+  database = database;
   eventHandler: EventHandler;
+  logger = logger;
   presence: Presence;
+
 
   constructor() {
     this.client = new Client({
