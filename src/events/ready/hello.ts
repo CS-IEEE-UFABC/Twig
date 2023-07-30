@@ -3,7 +3,7 @@ import { Event } from "../eventHandler"
 
 export default class Hello implements Event {
   data = {
-    enabled: true,
+    enabled: false,
     once: false
   }
 
