@@ -1,4 +1,4 @@
 import 'dotenv/config'
-import { Bot } from './bot'
+import Bot from './bot'
 
-new Bot().login()
+new Bot().login(process.env.DISCORD_TOKEN)
