@@ -1,17 +1,16 @@
-import { Client, Events, GatewayIntentBits } from 'discord.js';
+import { Client, GatewayIntentBits } from 'discord.js';
+import EventHandler from './events/eventHandler';
 
-export class Bot {
+export default class Bot {
   client: Client<boolean>;
+  eventHandler: EventHandler;
 
   constructor() {
     this.client = new Client({ intents: [GatewayIntentBits.Guilds] });
-
-    this.client.once(Events.ClientReady, c => {
-      console.log(`Ready! Logged in as ${c.user.tag}`);
-    });
+    this.eventHandler = new EventHandler(this);
   }
 
-  login() {
-    this.client.login(process.env.token);
+  login(token: string) {
+    this.client.login(token);
   }
 }
