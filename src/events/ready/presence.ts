@@ -8,6 +8,6 @@ export default class Hello implements Event {
   }
 
   async execute(bot: Bot) {
-    bot.logger.info(`Hello, World!! ${bot.client.user?.username} is ready!`)
+    bot.presence.update()
   }
 }
