@@ -1,4 +1,4 @@
-import { Collection, GuildMember, Role } from "discord.js";
+import { GuildMember, Role } from "discord.js";
 import Bot from "../bot";
 
 export default function addRolesIfNeeded(bot: Bot, members: GuildMember[]) {

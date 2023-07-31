@@ -1,4 +1,3 @@
-import { Role } from "discord.js"
 import Bot from "../../bot"
 import { Event } from "../eventHandler"
 import addRolesIfNeeded from "../../utils/roles"
