@@ -15,7 +15,8 @@ export default class Bot {
 
   constructor() {
     this.client = new Client({
-      intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates]
+      intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildMessages,
+      GatewayIntentBits.MessageContent]
     });
 
     this.eventHandler = new EventHandler(this);
