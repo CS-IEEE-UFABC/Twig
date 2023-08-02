@@ -22,7 +22,7 @@ export default class EventHandler {
             try {
               this.loadEvent(eventNameDir, file);
             } catch (e) {
-              this.bot.logger.error(e);
+              this.bot.logger.warn(e);
             }
           })
       })
@@ -50,8 +50,9 @@ export default class EventHandler {
         }
       }
 
+      this.bot.logger.debug(`Event '${eventName}/${eventFile}' was loaded.`)
     } else {
-      throw new Error(`Event ${eventName}/${eventName} does not have the required properties.`)
+      throw new Error(`Event '${eventName}/${eventName}' does not have the required properties.`)
     }
   }
 }
