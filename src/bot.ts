@@ -3,6 +3,7 @@ import logger from './utils/logger';
 import EventHandler from './events/eventHandler';
 import Presence from './utils/presence';
 import database from './utils/firebase';
+import CommandHandler from './commands/commandHandler';
 
 
 export default class Bot {
@@ -11,6 +12,7 @@ export default class Bot {
   eventHandler: EventHandler;
   logger = logger;
   presence: Presence;
+  commandHandler: CommandHandler;
 
 
   constructor() {
@@ -19,6 +21,7 @@ export default class Bot {
       GatewayIntentBits.MessageContent]
     });
 
+    this.commandHandler = new CommandHandler(this);
     this.eventHandler = new EventHandler(this);
     this.presence = new Presence(this);
   }
