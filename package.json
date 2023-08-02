@@ -5,8 +5,8 @@
   "main": "src/index.ts",
   "scripts": {
     "build": "rm -rf ./build && tsc --build",
-    "start": "node build/src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node build/index.js",
+    "firebase64": "ts-node extra/firebase64.ts"
   },
   "keywords": [],
   "author": "CS IEEE UFABC",

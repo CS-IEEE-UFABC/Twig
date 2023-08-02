@@ -1,8 +1,11 @@
+import { Base64String } from "discord.js";
+
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
       DISCORD_TOKEN: string;
       GUILD_ID: string;
+      FIREBASE_CONFIG: Base64String;
       NODE_ENV: 'development' | 'production';
     }
   }
