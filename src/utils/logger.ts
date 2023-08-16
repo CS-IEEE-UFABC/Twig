@@ -1,4 +1,4 @@
-import { createLogger, format, transports } from "winston";
+import { Logger, createLogger, format, transports } from "winston";
 const { printf } = format;
 
 const logger = createLogger({
@@ -17,17 +17,15 @@ const logger = createLogger({
   ],
 });
 
-//
-// If we're not in production then log to the `console` with the format:
-// `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
-//
-if (process.env.NODE_ENV !== 'production') {
-  logger.add(new transports.Console({
-    format: printf(({ level, message, label, timestamp }) => {
-      return `${timestamp} [${label || ""}] (${level.toUpperCase()}): ${message}`;
-    }),
-    level: 'debug'
-  }));
-}
+export default (cluster_id: number) => {
+  if (process.env.NODE_ENV !== 'production') {
+    logger.add(new transports.Console({
+      format: printf(({ level, message, label, timestamp }) => {
+        return `${timestamp} [${label || cluster_id}] (${level.toUpperCase()}): ${message}`;
+      }),
+      level: 'verbose'
+    }));
+  }
 
-export default logger
+  return logger
+}

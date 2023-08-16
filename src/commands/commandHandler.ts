@@ -34,7 +34,7 @@ export default class CommandHandler {
     if ('data' in command && 'execute' in command) {
       this.commmands.set(command.data.name, command);
 
-      this.bot.logger.debug(`Command '${commandCategory}/${commandFile}' was loaded.`)
+      this.bot.logger.verbose(`Command '${commandCategory}/${commandFile}' was loaded.`)
     } else {
       throw new Error(`Command '${commandCategory}/${commandFile}' does not have the required properties.`)
     }

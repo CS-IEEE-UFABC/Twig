@@ -10,7 +10,7 @@ export default class Bot {
   client: Client<boolean>;
   database = database;
   eventHandler: EventHandler;
-  logger = logger;
+  logger = logger(0);
   presence: Presence;
   commandHandler: CommandHandler;
 

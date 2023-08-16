@@ -50,7 +50,7 @@ export default class EventHandler {
         }
       }
 
-      this.bot.logger.debug(`Event '${eventName}/${eventFile}' was loaded.`)
+      this.bot.logger.verbose(`Event '${eventName}/${eventFile}' was loaded.`)
     } else {
       throw new Error(`Event '${eventName}/${eventName}' does not have the required properties.`)
     }
