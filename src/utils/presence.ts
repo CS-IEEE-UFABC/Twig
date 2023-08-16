@@ -11,7 +11,9 @@ export default class Presenece {
   }
 
   update(timeout: boolean = false) {
-    var channels = this.bot.client.guilds.cache.get(process.env.GUILD_ID)?.voiceStates.cache.filter(vs => vs.channelId !== null)
+    if (this.bot.client.guilds.cache.size == 0) return
+
+    var channels = this.bot.client.guilds.cache.first()!.voiceStates.cache.filter(vs => vs.channelId !== null)
 
     if (timeout == false) {
       if (channels?.find((vs) => vs.channelId == this.lastVC)) {
