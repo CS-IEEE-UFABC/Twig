@@ -21,7 +21,7 @@ export default function addRolesIfNeeded(bot: Bot, members: GuildMember[]) {
       if (new_roles.length > 0) {
         member.roles.add(new_roles)
 
-        bot.logger.debug(`Adding roles [${new_roles.map((role) => role.name)}] to ${member.user.username}`)
+        bot.logger.verbose(`Adding roles [${new_roles.map((role) => role.name)}] to ${member.user.username}`)
       }
     })
   })
