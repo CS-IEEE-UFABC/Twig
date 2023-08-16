@@ -1,4 +1,15 @@
 import 'dotenv/config'
-import Bot from './bot'
+import logger from "./utils/logger"
+import { join } from "path"
+import { ShardingManager } from 'discord.js';
 
-new Bot().login(process.env.DISCORD_TOKEN)
+const manager = new ShardingManager(
+  join(__dirname, './bot.js'), { token: process.env.DISCORD_TOKEN });
+
+const info = logger("Sharding").info
+
+manager.on('shardCreate', shard => {
+  info(`Launched shard ${shard.id}`)
+});
+
+manager.spawn({ amount: 2 });

@@ -17,7 +17,7 @@ const logger = createLogger({
   ],
 });
 
-export default (cluster_id: number) => {
+export default (cluster_id: string) => {
   if (process.env.NODE_ENV !== 'production') {
     logger.add(new transports.Console({
       format: printf(({ level, message, label, timestamp }) => {
