@@ -7,9 +7,32 @@ export default class {
     .setDescription('Mostra as informações da estabilidade do Twig')
 
   async execute(bot: Bot, interaction: ChatInputCommandInteraction) {
-    interaction.reply({ content: '🏓 Pinging...', ephemeral: false, fetchReply: true })
+    let gateway = bot.client.ws.ping
+
+    /* 
+      🏓 | Pong!
+      📡 | Shard 1/2
+      ⏱️ | Gateway Ping: `150ms`
+      ⚡ | API Ping: `...ms`
+    */
+    interaction.reply({
+      content: `🏓 | Pong!\n` +
+        `📡 | Shard ${bot.client.shard!.ids[0]! + 1}/${bot.client.shard!.count}\n` +
+        `⏱️ | Gateway Ping: \`${gateway}ms\`\n` +
+        `⚡ | API Ping: \`...ms\``,
+      ephemeral: false, fetchReply: true
+    })
       .then(sent => {
-        interaction.editReply(`🏓 Latência ida e volta: ${sent.createdTimestamp - interaction.createdTimestamp}ms.\nLatência API: ${bot.client.ws.ping}ms.`);
+        /* 
+          🏓 | Pong!
+          📡 | Shard 1/2
+          ⏱️ | Gateway Ping: `150ms`
+          ⚡ | API Ping: `417ms`
+        */
+        interaction.editReply(`🏓 | Pong!\n` +
+          `📡 | Shard ${bot.client.shard!.ids[0]! + 1}/${bot.client.shard!.count}\n` +
+          `⏱️ | Gateway Ping: \`${gateway}ms\`\n` +
+          `⚡ | API Ping: \`${sent.createdTimestamp - interaction.createdTimestamp}ms\``)
       })
   };
 };
