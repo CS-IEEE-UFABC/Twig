@@ -4,7 +4,7 @@ declare global {
   namespace NodeJS {
     interface ProcessEnv {
       DISCORD_TOKEN: string;
-      FIREBASE_CONFIG: Base64String;
+      MONGODB_URI: Base64String!;
       NODE_ENV: 'development' | 'production';
     }
   }
