@@ -22,7 +22,7 @@ export default class EventHandler {
             try {
               this.loadEvent(eventNameDir, file);
             } catch (e) {
-              this.bot.logger.warn(e);
+              this.bot.logger.warn((e as Error).stack);
             }
           })
       })

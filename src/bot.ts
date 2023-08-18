@@ -2,18 +2,19 @@ import { Client, GatewayIntentBits } from 'discord.js';
 import logger from './utils/logger';
 import EventHandler from './events/eventHandler';
 import Presence from './utils/presence';
-import database from './utils/firebase';
+import database from './utils/database';
 import CommandHandler from './commands/commandHandler';
 import winston from 'winston';
+import mongoose from 'mongoose';
 
 
 export default class Bot {
   client: Client<boolean>;
-  database = database;
   eventHandler: EventHandler;
   logger: winston.Logger;
   presence: Presence;
   commandHandler: CommandHandler;
+  db: typeof mongoose | undefined;
 
 
   constructor() {
@@ -29,7 +30,8 @@ export default class Bot {
     this.presence = new Presence(this);
   }
 
-  login(token: string) {
+  async login(token: string) {
+    this.db = await database();
     this.client.login(token);
   }
 }
