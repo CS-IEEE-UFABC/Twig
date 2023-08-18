@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, Collection, SlashCommandBuilder } from 'discord.js';
+import { AutocompleteInteraction, ChatInputCommandInteraction, Collection, Routes, SlashCommandBuilder } from 'discord.js';
 import { statSync, readdirSync } from "node:fs"
 import { join } from "node:path"
 import Bot from '../bot';
@@ -22,7 +22,7 @@ export default class CommandHandler {
             try {
               this.loadCommand(commandCategoryDir, file);
             } catch (e) {
-              this.bot.logger.warn(e);
+              this.bot.logger.warn((e as Error).stack);
             }
           })
       })
@@ -38,11 +38,11 @@ export default class CommandHandler {
     } else {
       throw new Error(`Command '${commandCategory}/${commandFile}' does not have the required properties.`)
     }
-
   }
 }
 
 interface Command {
   data: SlashCommandBuilder;
   execute: (bot: Bot, interaction: ChatInputCommandInteraction) => Promise<void>;
+  autocomplete?: (bot: Bot, interaction: AutocompleteInteraction) => Promise<void>;
 }
