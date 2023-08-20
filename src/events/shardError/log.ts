@@ -8,6 +8,6 @@ export default class Hello implements Event {
   }
 
   async execute(bot: Bot, error: Error) {
-    bot.logger.error(error)
+    bot.logger.error((error as Error).stack)
   }
 }
