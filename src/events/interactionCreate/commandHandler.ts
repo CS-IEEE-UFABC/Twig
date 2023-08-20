@@ -18,7 +18,7 @@ export default class Hello implements Event {
     try {
       await command.execute(bot, interaction);
     } catch (error) {
-      bot.logger.error(error);
+      bot.logger.error((error as Error).stack);
       if (interaction.replied || interaction.deferred) {
         await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
       } else {
