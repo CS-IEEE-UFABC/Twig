@@ -2,7 +2,7 @@ import Bot from "../../bot"
 import { Event } from "../eventHandler"
 import addRolesIfNeeded from "../../utils/roles"
 
-export default class Hello implements Event {
+export default class Roles implements Event {
   data = {
     enabled: true,
     once: true

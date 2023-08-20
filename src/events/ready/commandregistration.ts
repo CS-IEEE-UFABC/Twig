@@ -2,7 +2,7 @@ import { Routes } from "discord.js"
 import Bot from "../../bot"
 import { Event } from "../eventHandler"
 
-export default class Hello implements Event {
+export default class CommandRegistration implements Event {
   data = {
     enabled: true,
     once: true
