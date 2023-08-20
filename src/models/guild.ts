@@ -5,4 +5,8 @@ export default model("guild", new Schema({
   settings: {
     auto_role: [String],
   },
+  invites: [{
+    code: String,
+    ra: String,
+  }]
 }));
