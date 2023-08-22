@@ -1,8 +1,8 @@
 
 import { SlashCommandBuilder, ChatInputCommandInteraction, PermissionFlagsBits, AutocompleteInteraction, ChannelType, BaseGuildTextChannel } from "discord.js";
 import Bot from "../../bot";
-import Volunteer from "../../models/volunteer";
-import Guild from "../../models/guild";
+import VolunteerModel from "../../models/volunteer";
+import GuildModel from "../../models/guild";
 
 export default class {
   data = new SlashCommandBuilder()
@@ -10,21 +10,22 @@ export default class {
     .setDescription('Cria um convite único para o voluntário')
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
     .setDMPermission(false)
-    .addIntegerOption(option =>
+    .addNumberOption(option =>
       option.setName('ra')
         .setDescription('Registro Acadêmico (RA) do voluntário.')
         .setRequired(true)
         .setAutocomplete(true)
+        .setMinValue(0)
     )
 
   async execute(bot: Bot, interaction: ChatInputCommandInteraction) {
-    var RA = interaction.options.getInteger('ra')
+    var RA = interaction.options.getNumber('ra')!.toString()
 
-    Volunteer.findOne({ ra: RA }).then((volunteer) => {
+    VolunteerModel.findOne({ ra: RA }).then((volunteer) => {
       if (volunteer) {
-        Guild.findOne({ guild_id: interaction.guildId }).then((guild) => {
+        GuildModel.findOne({ guild_id: interaction.guildId }).then((guild) => {
           if (!guild) {
-            guild = new Guild({ guild_id: interaction.guildId, invites: [] })
+            guild = new GuildModel({ guild_id: interaction.guildId, invites: [] })
           }
 
           var invite = guild!.invites.find((invite) => invite.ra == volunteer.ra)
@@ -37,7 +38,7 @@ export default class {
                 if (!guild_invite) {
                   this.createInvite(interaction, guild, volunteer)
                 } else {
-                  this.replyInvite(interaction, volunteer.nome!, guild_invite.maxUses!, guild_invite.code!)
+                  this.replyInvite(interaction, volunteer.nome!, guild_invite.uses!, guild_invite.code!)
                 }
               })
           }
@@ -52,7 +53,7 @@ export default class {
     var focused = interaction.options.getFocused();
     var regex = new RegExp(`${focused}`);
 
-    Volunteer.find({ $or: [{ ra: regex }, { nome: regex }] }).then((volunteers) => {
+    VolunteerModel.find({ $or: [{ ra: regex }, { nome: regex }] }).then((volunteers) => {
       interaction.respond(
         volunteers.map(volunteer => ({ name: `${volunteer.nome!} (${volunteer.ra!})`, value: volunteer.ra! })),
       );
@@ -63,7 +64,7 @@ export default class {
     var default_channel = (interaction.guild!.channels.cache
       .find((channel) =>
         channel.type == ChannelType.GuildText && channel.rawPosition == 0)! as BaseGuildTextChannel)
-    var invite = await default_channel.createInvite({ maxAge: 0, maxUses: 3, unique: true })
+    var invite = await default_channel.createInvite({ maxAge: 0, unique: true })
 
     guild!.invites.push({ code: invite.code, ra: volunteer.ra })
     guild!.save()

@@ -1,4 +1,4 @@
-import { Client, GatewayIntentBits } from 'discord.js';
+import { Client, Collection, GatewayIntentBits } from 'discord.js';
 import logger from './utils/logger';
 import EventHandler from './events/eventHandler';
 import Presence from './utils/presence';
@@ -15,6 +15,7 @@ export default class Bot {
   presence: Presence;
   commandHandler: CommandHandler;
   db: typeof mongoose | undefined;
+  invites = new Collection<String, Collection<String, number>>();
 
 
   constructor() {

@@ -8,10 +8,7 @@ export default model("voluntario", new Schema({
   endereço: String,
   ingresso_ufabc: Number,
   ingresso_ieee: Number,
-  ativo: {
-    type: Boolean,
-    default: true,
-  },
+  discord: [String],
   termo_compromisso: String,
   curso_interdisciplinar: String,
   curso_específico: String,
@@ -22,6 +19,10 @@ export default model("voluntario", new Schema({
       projetos: [String],
       função: String,
       notas: String,
+      ativo: {
+        type: Boolean,
+        default: true,
+      },
     }
   },
 }));
