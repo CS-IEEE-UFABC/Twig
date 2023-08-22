@@ -6,7 +6,7 @@ import addRolesIfNeeded from "../../utils/roles"
 export default class Roles implements Event {
   data = {
     enabled: true,
-    once: true
+    once: false
   }
 
   async execute(bot: Bot, member: GuildMember) {
