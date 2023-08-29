@@ -25,8 +25,15 @@ export default class Invites implements Event {
 
         VolunteerModel.findOne({ ra: invite_db?.ra }).then(volunteer => {
           if (!volunteer) return
+          var names = volunteer.nome!.split(" ")
 
-          member.setNickname(volunteer.nome!)
+          var nickname = `${names.shift()} ` +
+            `${names
+              .map((name) => name.split("")[0])
+              .filter((name) => name == name.toUpperCase())
+              .join(". ")}.`
+
+          member.setNickname(nickname)
           volunteer.discord.push(member.id)
           volunteer.save()
         })
