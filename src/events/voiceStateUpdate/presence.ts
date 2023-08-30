@@ -1,6 +1,6 @@
-import { VoiceState } from "discord.js"
-import Bot from "../../bot"
-import { Event } from "../eventHandler"
+import { type VoiceState } from 'discord.js'
+import type Bot from '../../bot'
+import { type Event } from '../eventHandler'
 
 export default class Presence implements Event {
   data = {
@@ -8,7 +8,7 @@ export default class Presence implements Event {
     once: false
   }
 
-  async execute(bot: Bot, oldVS: VoiceState, newVS: VoiceState) {
+  async execute (bot: Bot, oldVS: VoiceState, newVS: VoiceState): Promise<void> {
     bot.presence.update()
   }
 }

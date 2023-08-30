@@ -1,6 +1,6 @@
-import { Interaction } from "discord.js"
-import Bot from "../../bot"
-import { Event } from "../eventHandler"
+import { type Interaction } from 'discord.js'
+import type Bot from '../../bot'
+import { type Event } from '../eventHandler'
 
 export default class CommandHandler implements Event {
   data = {
@@ -8,21 +8,21 @@ export default class CommandHandler implements Event {
     once: false
   }
 
-  async execute(bot: Bot, interaction: Interaction) {
-    if (!interaction.isChatInputCommand()) return;
+  async execute (bot: Bot, interaction: Interaction): Promise<void> {
+    if (!interaction.isChatInputCommand()) return
 
-    const command = bot.commandHandler.commmands.get(interaction.commandName);
+    const command = bot.commandHandler.commmands.get(interaction.commandName)
 
-    if (!command) return;
+    if (command == null) return
 
     try {
-      await command.execute(bot, interaction);
+      await command.execute(bot, interaction)
     } catch (error) {
-      bot.logger.error((error as Error).stack);
+      bot.logger.error((error as Error).stack)
       if (interaction.replied || interaction.deferred) {
-        await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
+        await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true })
       } else {
-        await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+        await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true })
       }
     }
   }

@@ -1,11 +1,11 @@
-import { Base64String } from "discord.js";
+import { type Base64String } from 'discord.js'
 
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
-      DISCORD_TOKEN: string;
-      MONGODB_URI: Base64String!;
-      NODE_ENV: 'development' | 'production';
+      DISCORD_TOKEN: string
+      MONGODB_URI: Base64String!
+      NODE_ENV: 'development' | 'production'
     }
   }
 }

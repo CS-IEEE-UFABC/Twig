@@ -1,7 +1,6 @@
-import { Collection, Guild, Invite } from "discord.js"
-import Bot from "../../bot"
-import { Event } from "../eventHandler"
-import GuildModel from "../../models/guild"
+import { type Guild } from 'discord.js'
+import type Bot from '../../bot'
+import { type Event } from '../eventHandler'
 
 export default class Invites implements Event {
   data = {
@@ -9,7 +8,8 @@ export default class Invites implements Event {
     once: false
   }
 
-  async execute(bot: Bot, guild: Guild) {
+  async execute (bot: Bot, guild: Guild): Promise<void> {
     guild.invites.delete(guild.id)
+      .catch((err) => { bot.logger.error((err as Error).stack) })
   }
 }

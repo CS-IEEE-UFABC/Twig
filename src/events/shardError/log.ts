@@ -1,5 +1,5 @@
-import Bot from "../../bot"
-import { Event } from "../eventHandler"
+import type Bot from '../../bot'
+import { type Event } from '../eventHandler'
 
 export default class Log implements Event {
   data = {
@@ -7,7 +7,7 @@ export default class Log implements Event {
     once: false
   }
 
-  async execute(bot: Bot, error: Error) {
-    bot.logger.error((error as Error).stack)
+  async execute (bot: Bot, error: Error): Promise<void> {
+    bot.logger.error((error).stack)
   }
 }

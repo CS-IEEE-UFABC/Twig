@@ -30,7 +30,7 @@ export default class Bot {
     this.presence = new Presence(this)
   }
 
-  async login (token: string): Promise<undefined> {
+  async login (token: string): Promise<void> {
     this.db = await database()
     this.client.login(token)
       .catch((err) => { this.logger.error((err as Error).stack) })

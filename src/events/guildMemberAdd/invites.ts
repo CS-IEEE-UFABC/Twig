@@ -10,7 +10,7 @@ export default class Invites implements Event {
     once: false
   }
 
-  async execute (bot: Bot, member: GuildMember): Promise<undefined> {
+  async execute (bot: Bot, member: GuildMember): Promise<void> {
     member.guild.invites.fetch().then((newInvites) => {
       const oldInvites = bot.invites.get(member.guild.id)
       if (oldInvites === undefined) return

@@ -1,5 +1,5 @@
-import Bot from "../../bot"
-import { Event } from "../eventHandler"
+import type Bot from '../../bot'
+import { type Event } from '../eventHandler'
 
 export default class Presence implements Event {
   data = {
@@ -7,7 +7,7 @@ export default class Presence implements Event {
     once: true
   }
 
-  async execute(bot: Bot) {
+  async execute (bot: Bot): Promise<void> {
     bot.presence.update()
   }
 }

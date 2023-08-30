@@ -1,6 +1,6 @@
-import { Schema, model } from "mongoose";
+import { Schema, model } from 'mongoose'
 
-export default model("voluntario", new Schema({
+export default model('voluntario', new Schema({
   nome: String,
   ra: String,
   rg: String,
@@ -18,11 +18,10 @@ export default model("voluntario", new Schema({
       cargo: String,
       projetos: [String],
       função: String,
-      notas: String,
       ativo: {
         type: Boolean,
-        default: true,
-      },
+        default: true
+      }
     }
-  },
-}));
+  }
+}))
