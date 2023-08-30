@@ -1,11 +1,11 @@
-import { Logger, createLogger, format, transports } from "winston";
-const { printf } = format;
+import { type Logger, createLogger, format, transports } from 'winston'
+const { printf } = format
 
 const logger = createLogger({
   level: 'info',
   format: format.combine(
     format.timestamp(),
-    format.json(),
+    format.json()
   ),
   transports: [
     //
@@ -13,18 +13,18 @@ const logger = createLogger({
     // - Write all logs with importance level of `info` or less to `combined.log`
     //
     new transports.File({ filename: './logs/error.log', level: 'error' }),
-    new transports.File({ filename: './logs/combined.log' }),
-  ],
-});
+    new transports.File({ filename: './logs/combined.log' })
+  ]
+})
 
-export default (cluster_id: string) => {
+export default (clusterId: string): Logger => {
   if (process.env.NODE_ENV !== 'production') {
     logger.add(new transports.Console({
       format: printf(({ level, message, label, timestamp }) => {
-        return `${timestamp} [${label || cluster_id}] (${level.toUpperCase()}): ${message}`;
+        return `${timestamp} [${label ?? clusterId}] (${level.toUpperCase()}): ${message}`
       }),
-      level: 'verbose'
-    }));
+      level: 'debug'
+    }))
   }
 
   return logger
