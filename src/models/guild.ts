@@ -1,12 +1,13 @@
-import { Schema, model } from "mongoose";
+import { Schema, model } from 'mongoose'
 
-export default model("guild", new Schema({
+export default model('guild', new Schema({
   guild_id: String,
   settings: {
-    auto_role: [String],
+    auto_role: [String]
   },
   invites: [{
     code: String,
-    ra: String,
-  }]
-}));
+    ra: String
+  }],
+  volunteer_role_id: String
+}))

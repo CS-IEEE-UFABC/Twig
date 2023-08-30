@@ -1,6 +1,6 @@
-import { Interaction } from "discord.js"
-import Bot from "../../bot"
-import { Event } from "../eventHandler"
+import { type Interaction } from 'discord.js'
+import type Bot from '../../bot'
+import { type Event } from '../eventHandler'
 
 export default class AutoComplete implements Event {
   data = {
@@ -8,15 +8,15 @@ export default class AutoComplete implements Event {
     once: false
   }
 
-  async execute(bot: Bot, interaction: Interaction) {
-    if (!interaction.isAutocomplete()) return;
-    const command = bot.commandHandler.commmands.get(interaction.commandName);
+  async execute (bot: Bot, interaction: Interaction): Promise<void> {
+    if (!interaction.isAutocomplete()) return
+    const command = bot.commandHandler.commmands.get(interaction.commandName)
 
-    if (!command || !command.autocomplete) return;
+    if (command?.autocomplete == null) return
     try {
-      await command.autocomplete(bot, interaction);
+      await command.autocomplete(bot, interaction)
     } catch (error) {
-      bot.logger.error((error as Error).stack);
+      bot.logger.error((error as Error).stack)
     }
   }
 }

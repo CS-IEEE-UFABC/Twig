@@ -8,7 +8,7 @@ export default class Invites implements Event {
     once: false
   }
 
-  async execute (bot: Bot, invite: Invite): Promise<undefined> {
+  async execute (bot: Bot, invite: Invite): Promise<void> {
     if (invite.guild === null) return
     let botInvites = bot.invites.get(invite.guild.id)
 

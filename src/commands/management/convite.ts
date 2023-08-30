@@ -17,7 +17,7 @@ export default class {
         .setMinValue(0)
     )
 
-  async execute (bot: Bot, interaction: ChatInputCommandInteraction): Promise<undefined> {
+  async execute (bot: Bot, interaction: ChatInputCommandInteraction): Promise<void> {
     if (interaction.options.getNumber('ra') == null) {
       interaction.reply({ content: '❌ | RA não informado', ephemeral: true })
         .catch((err) => { bot.logger.error((err as Error).stack) })
@@ -57,7 +57,7 @@ export default class {
     }).catch((err) => { bot.logger.error((err as Error).stack) })
   }
 
-  async autocomplete (bot: Bot, interaction: AutocompleteInteraction): Promise<undefined> {
+  async autocomplete (bot: Bot, interaction: AutocompleteInteraction): Promise<void> {
     const focused = interaction.options.getFocused()
     const regex = new RegExp(`${focused}`, 'i')
 

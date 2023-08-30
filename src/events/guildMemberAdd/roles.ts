@@ -1,7 +1,7 @@
-import { GuildMember } from "discord.js"
-import Bot from "../../bot"
-import { Event } from "../eventHandler"
-import addRolesIfNeeded from "../../utils/roles"
+import { type GuildMember } from 'discord.js'
+import type Bot from '../../bot'
+import { type Event } from '../eventHandler'
+import addRolesIfNeeded from '../../utils/roles'
 
 export default class Roles implements Event {
   data = {
@@ -9,7 +9,7 @@ export default class Roles implements Event {
     once: false
   }
 
-  async execute(bot: Bot, member: GuildMember) {
+  async execute (bot: Bot, member: GuildMember): Promise<void> {
     addRolesIfNeeded(bot, [member])
   }
 }

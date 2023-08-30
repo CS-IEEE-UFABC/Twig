@@ -1,52 +1,52 @@
-import { Collection, Events } from "discord.js";
-import { statSync, readdirSync } from "node:fs"
-import { join } from "node:path"
-import Bot from "../bot";
-
+import { Collection, Events } from 'discord.js'
+import { statSync, readdirSync } from 'node:fs'
+import { join } from 'node:path'
+import type Bot from '../bot'
 
 export default class EventHandler {
-  private bot: Bot;
-  events = new Collection<string, Collection<string, Event>>();
+  private readonly bot: Bot
+  events = new Collection<string, Collection<string, Event>>()
 
-  constructor(bot: Bot) {
+  constructor (bot: Bot) {
     this.bot = bot
-    this.loadAllEvents();
+    this.loadAllEvents()
   }
 
-  private loadAllEvents() {
+  private loadAllEvents (): void {
     readdirSync(__dirname)
       .filter((f) => statSync(join(__dirname, f)).isDirectory())
       .forEach((eventNameDir) => {
         readdirSync(join(__dirname, eventNameDir))
-          .filter((f) => f.endsWith(".js")).forEach((file) => {
+          .filter((f) => f.endsWith('.js')).forEach((file) => {
             try {
-              this.loadEvent(eventNameDir, file);
+              this.loadEvent(eventNameDir, file)
             } catch (e) {
-              this.bot.logger.warn((e as Error).stack);
+              this.bot.logger.warn((e as Error).stack)
             }
           })
       })
   }
 
-  loadEvent(eventName: string, eventFile: string) {
+  loadEvent (eventName: string, eventFile: string): void {
     if (!Object.values(Events).includes(eventName as any)) {
-      throw new Error(`ClientEvent "${eventName}" does not exist.`);
+      throw new Error(`ClientEvent "${eventName}" does not exist.`)
     }
 
-    var event = new (require(join(__dirname, eventName, eventFile)).default)() as Event;
+    // eslint-disable-next-line @typescript-eslint/no-var-requires, new-cap
+    const event = new (require(join(__dirname, eventName, eventFile)).default)() as Event
 
     if ('data' in event && 'execute' in event) {
       if (!this.events.has(eventName)) {
-        this.events.set(eventName, new Collection());
+        this.events.set(eventName, new Collection())
       }
 
-      this.events.get(eventName)!.set(eventName, event);
+      this.events.get(eventName)?.set(eventName, event)
 
       if (event.data.enabled) {
         if (event.data.once) {
-          this.bot.client.once(eventName, (...args) => event.execute(this.bot, ...args));
+          this.bot.client.once(eventName, (...args) => event.execute(this.bot, ...args))
         } else {
-          this.bot.client.on(eventName, (...args) => event.execute(this.bot, ...args));
+          this.bot.client.on(eventName, (...args) => event.execute(this.bot, ...args))
         }
       }
 
@@ -59,8 +59,8 @@ export default class EventHandler {
 
 export interface Event {
   data: {
-    enabled: boolean;
-    once: boolean;
+    enabled: boolean
+    once: boolean
   }
-  execute: any;
+  execute: any
 }
