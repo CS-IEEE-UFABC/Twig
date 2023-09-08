@@ -22,7 +22,13 @@ export default class Invites implements Event {
       }
 
       guild.invites = guild?.invites.filter(i => i.code !== invite.code)
-      guild.save().catch((err) => { bot.logger.error((err as Error).stack) })
-    }).catch((err) => { bot.logger.error((err as Error).stack) })
+      guild.save().catch((e) => bot.logger.error({
+        message: (e as Error).stack,
+        scope: 'InviteDelete/Invites#execute'
+      }))
+    }).catch((e) => bot.logger.error({
+      message: (e as Error).stack,
+      scope: 'InviteDelete/Invites#execute'
+    }))
   }
 }

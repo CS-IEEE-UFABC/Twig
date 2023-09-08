@@ -12,4 +12,4 @@ manager.on('shardCreate', shard => {
   logger.info(`Launched shard ${shard.id}`)
 })
 
-manager.spawn({ amount: 2 }).catch((err) => { logger.error((err as Error).stack) })
+manager.spawn({ amount: 2 }).catch((e) => { logger.error((e as Error).stack) })

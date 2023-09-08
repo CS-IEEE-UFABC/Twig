@@ -39,20 +39,45 @@ export default class Invites implements Event {
               .join('. ')}.`
 
           member.setNickname(nickname)
-            .catch((err) => { bot.logger.error((err as Error).stack) })
+            .catch((e) => bot.logger.error({
+              message: (e as Error).stack,
+              scope: 'GuildMemberAdd/Invites#execute'
+            }))
 
-          if (guild.volunteer_role_id != null) {
-            member.roles.add(guild.volunteer_role_id)
-              .catch((err) => { bot.logger.error((err as Error).stack) })
+          if (guild.settings?.roles !== null) {
+            const roles = guild.settings?.roles.map((role) => {
+              return /volunteerRole\((\d+)\)/.exec(role)
+            }).filter((role) => role !== null).map((role) => role?.[1]) as string[]
+
+            member.roles.add(roles)
+              .catch((e) => {
+                if (e.message === 'Unknown Role') return
+                bot.logger.error({
+                  message: (e as Error).stack,
+                  scope: 'GuildMemberAdd/Invites#execute'
+                })
+              })
           }
 
           if (!volunteer.discord.includes(member.id)) {
             volunteer.discord.push(member.id)
           }
 
-          volunteer.save().catch((err) => { bot.logger.error((err as Error).stack) })
-        }).catch((err) => { bot.logger.error((err as Error).stack) })
-      }).catch((err) => { bot.logger.error((err as Error).stack) })
-    }).catch((err) => { bot.logger.error((err as Error).stack) })
+          volunteer.save().catch((e) => bot.logger.error({
+            message: (e as Error).stack,
+            scope: 'GuildMemberAdd/Invites#execute'
+          }))
+        }).catch((e) => bot.logger.error({
+          message: (e as Error).stack,
+          scope: 'GuildMemberAdd/Invites#execute'
+        }))
+      }).catch((e) => bot.logger.error({
+        message: (e as Error).stack,
+        scope: 'GuildMemberAdd/Invites#execute'
+      }))
+    }).catch((e) => bot.logger.error({
+      message: (e as Error).stack,
+      scope: 'GuildMemberAdd/Invites#execute'
+    }))
   }
 }

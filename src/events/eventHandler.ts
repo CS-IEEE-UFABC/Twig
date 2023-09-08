@@ -9,22 +9,39 @@ export default class EventHandler {
 
   constructor (bot: Bot) {
     this.bot = bot
-    this.loadAllEvents()
+    const { total, errors } = this.loadAllEvents()
+    this.bot.logger.info({
+      message: `Total of ${total - errors}/${total} events were loaded.`,
+      scope: 'EventHandler#load'
+    })
   }
 
-  private loadAllEvents (): void {
+  private loadAllEvents (): { total: number, errors: number } {
+    let total = 0
+    let errors = 0
+
     readdirSync(__dirname)
       .filter((f) => statSync(join(__dirname, f)).isDirectory())
       .forEach((eventNameDir) => {
         readdirSync(join(__dirname, eventNameDir))
           .filter((f) => f.endsWith('.js')).forEach((file) => {
             try {
+              total++
               this.loadEvent(eventNameDir, file)
             } catch (e) {
-              this.bot.logger.warn((e as Error).stack)
+              errors++
+              this.bot.logger.warn({
+                message: (e as Error).stack,
+                scope: 'EventHandler#load'
+              })
             }
           })
       })
+
+    return {
+      total,
+      errors
+    }
   }
 
   loadEvent (eventName: string, eventFile: string): void {
@@ -50,7 +67,10 @@ export default class EventHandler {
         }
       }
 
-      this.bot.logger.verbose(`Event '${eventName}/${eventFile}' was loaded.`)
+      this.bot.logger.verbose({
+        message: `Event '${eventName}/${eventFile}' was loaded.`,
+        scope: 'EventHandler#load'
+      })
     } else {
       throw new Error(`Event '${eventName}/${eventName}' does not have the required properties.`)
     }

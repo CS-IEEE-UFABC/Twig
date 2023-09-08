@@ -2,7 +2,7 @@ import { type Interaction } from 'discord.js'
 import type Bot from '../../bot'
 import { type Event } from '../eventHandler'
 
-export default class AutoComplete implements Event {
+export default class Autocomplete implements Event {
   data = {
     enabled: true,
     once: false
@@ -15,8 +15,11 @@ export default class AutoComplete implements Event {
     if (command?.autocomplete == null) return
     try {
       await command.autocomplete(bot, interaction)
-    } catch (error) {
-      bot.logger.error((error as Error).stack)
+    } catch (e) {
+      bot.logger.error({
+        message: (e as Error).stack,
+        scope: 'interactionCreate/Autocomplete#execute'
+      })
     }
   }
 }

@@ -9,6 +9,9 @@ export default class Hello implements Event {
   }
 
   async execute (bot: Bot): Promise<void> {
-    bot.logger.info(`Shard ${(bot.client.shard as ShardClientUtil).ids[0]} ready!`)
+    bot.logger.info({
+      message: `Shard ${(bot.client.shard as ShardClientUtil).ids[0]} ready!`,
+      scope: 'Ready/Hello#execute'
+    })
   }
 }

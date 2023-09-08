@@ -8,6 +8,9 @@ export default class Log implements Event {
   }
 
   async execute (bot: Bot, error: Error): Promise<void> {
-    bot.logger.error((error).stack)
+    bot.logger.error({
+      message: error.stack,
+      scope: 'ShardError/Log#execute'
+    })
   }
 }
