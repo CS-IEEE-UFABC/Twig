@@ -11,6 +11,9 @@ export default class CommandRegistration implements Event {
   async execute (bot: Bot): Promise<void> {
     bot.client.rest.put(Routes.applicationCommands((bot.client.user as User).id), {
       body: bot.commandHandler.commmands.map((c) => c.data.toJSON())
-    }).catch((err) => { bot.logger.error((err as Error).stack) })
+    }).catch((e) => bot.logger.error({
+      message: (e as Error).stack,
+      scope: 'Ready/CommandRegistration#execute'
+    }))
   }
 }

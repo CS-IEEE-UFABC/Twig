@@ -3,7 +3,7 @@ import type Bot from '../../bot'
 import VolunteerModel from '../../models/volunteer'
 import GuildModel from '../../models/guild'
 
-export default class {
+export default class Convite {
   data = new SlashCommandBuilder()
     .setName('convite')
     .setDescription('Cria um convite único para o voluntário')
@@ -20,7 +20,10 @@ export default class {
   async execute (bot: Bot, interaction: ChatInputCommandInteraction): Promise<void> {
     if (interaction.options.getNumber('ra') == null) {
       interaction.reply({ content: '❌ | RA não informado', ephemeral: true })
-        .catch((err) => { bot.logger.error((err as Error).stack) })
+        .catch((e) => bot.logger.error({
+          message: (e as Error).stack,
+          scope: 'Management/Convite#execute'
+        }))
       return
     }
     const RA = (interaction.options.getNumber('ra') as number).toString()
@@ -36,25 +39,46 @@ export default class {
 
           if (invite == null) {
             this.createInvite(interaction, guild, volunteer, bot)
-              .catch((err) => { bot.logger.error((err as Error).stack) })
+              .catch((e) => bot.logger.error({
+                message: (e as Error).stack,
+                scope: 'Management/Convite#execute'
+              }))
           } else {
             (interaction.guild as Guild).invites.fetch({ code: invite.code as string })
               .then((guildInvite) => {
                 if (guildInvite === null) {
                   this.createInvite(interaction, guild, volunteer, bot)
-                    .catch((err) => { bot.logger.error((err as Error).stack) })
+                    .catch((e) => bot.logger.error({
+                      message: (e as Error).stack,
+                      scope: 'Management/Convite#execute'
+                    }))
                 } else {
                   this.replyInvite(interaction, volunteer.nome as string, guildInvite.uses as number, guildInvite.code)
-                    .catch((err) => { bot.logger.error((err as Error).stack) })
+                    .catch((e) => bot.logger.error({
+                      message: (e as Error).stack,
+                      scope: 'Management/Convite#execute'
+                    }))
                 }
-              }).catch((err) => { bot.logger.error((err as Error).stack) })
+              }).catch((e) => bot.logger.error({
+                message: (e as Error).stack,
+                scope: 'Management/Convite#execute'
+              }))
           }
-        }).catch((err) => { bot.logger.error((err as Error).stack) })
+        }).catch((e) => bot.logger.error({
+          message: (e as Error).stack,
+          scope: 'Management/Convite#execute'
+        }))
       } else {
         interaction.reply({ content: '❌ | Voluntário não encontrado', ephemeral: true })
-          .catch((err) => { bot.logger.error((err as Error).stack) })
+          .catch((e) => bot.logger.error({
+            message: (e as Error).stack,
+            scope: 'Management/Convite#execute'
+          }))
       }
-    }).catch((err) => { bot.logger.error((err as Error).stack) })
+    }).catch((e) => bot.logger.error({
+      message: (e as Error).stack,
+      scope: 'Management/Convite#execute'
+    }))
   }
 
   async autocomplete (bot: Bot, interaction: AutocompleteInteraction): Promise<void> {
@@ -65,8 +89,14 @@ export default class {
       interaction.respond(
         volunteers
           .map(volunteer => ({ name: `${volunteer.nome} (${volunteer.ra})`, value: volunteer.ra ?? '' }))
-      ).catch((err) => { bot.logger.error((err as Error).stack) })
-    }).catch((err) => { bot.logger.error((err as Error).stack) })
+      ).catch((e) => bot.logger.error({
+        message: (e as Error).stack,
+        scope: 'Management/Convite#autocomplete'
+      }))
+    }).catch((e) => bot.logger.error({
+      message: (e as Error).stack,
+      scope: 'Management/Convite#autocomplete'
+    }))
   }
 
   private async createInvite (interaction: ChatInputCommandInteraction, guild: any, volunteer: any, bot: Bot): Promise<string> {
@@ -85,7 +115,10 @@ export default class {
     }
 
     this.replyInvite(interaction, volunteer.nome, 0, invite.code)
-      .catch((err) => { bot.logger.error((err as Error).stack) })
+      .catch((e) => bot.logger.error({
+        message: (e as Error).stack,
+        scope: 'Management/Convite#createInvite'
+      }))
 
     return invite.code
   }

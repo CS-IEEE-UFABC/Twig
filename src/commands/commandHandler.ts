@@ -10,22 +10,39 @@ export default class CommandHandler {
   constructor (bot: Bot) {
     this.bot = bot
 
-    this._loadAllCommands()
+    const { total, errors } = this._loadAllCommands()
+    this.bot.logger.info({
+      message: `Total of ${total - errors}/${total} commands were loaded.`,
+      scope: 'CommandHandler#constructor'
+    })
   }
 
-  _loadAllCommands (): void {
+  _loadAllCommands (): { total: number, errors: number } {
+    let total = 0
+    let errors = 0
+
     readdirSync(__dirname)
       .filter((f) => statSync(join(__dirname, f)).isDirectory())
       .forEach((commandCategoryDir) => {
         readdirSync(join(__dirname, commandCategoryDir))
           .filter((f) => f.endsWith('.js')).forEach((file) => {
             try {
+              total++
               this.loadCommand(commandCategoryDir, file)
             } catch (e) {
-              this.bot.logger.warn((e as Error).stack)
+              errors++
+              this.bot.logger.warn({
+                message: (e as Error).stack,
+                scope: 'CommandHandler#loadAllEvents'
+              })
             }
           })
       })
+
+    return {
+      total,
+      errors
+    }
   }
 
   loadCommand (commandCategory: string, commandFile: string): void {
@@ -35,7 +52,10 @@ export default class CommandHandler {
     if ('data' in command && 'execute' in command) {
       this.commmands.set(command.data.name, command)
 
-      this.bot.logger.verbose(`Command '${commandCategory}/${commandFile}' was loaded.`)
+      this.bot.logger.verbose({
+        message: `Command '${commandCategory}/${commandFile}' was loaded.`,
+        scope: 'CommandHandler#loadCommand'
+      })
     } else {
       throw new Error(`Command '${commandCategory}/${commandFile}' does not have the required properties.`)
     }

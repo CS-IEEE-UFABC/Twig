@@ -10,6 +10,9 @@ export default class Invites implements Event {
 
   async execute (bot: Bot, guild: Guild): Promise<void> {
     guild.invites.delete(guild.id)
-      .catch((err) => { bot.logger.error((err as Error).stack) })
+      .catch((e) => bot.logger.error({
+        message: (e as Error).stack,
+        scope: 'GuildDelete/Invites#execute'
+      }))
   }
 }

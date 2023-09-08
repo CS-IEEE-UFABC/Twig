@@ -24,9 +24,18 @@ export default class Invites implements Event {
           };
           guildDB.invites = guildDB.invites
             .filter((invite) => bot.invites.get(guild.id)?.has(invite.code as string))
-          guildDB.save().catch((err) => { bot.logger.error((err as Error).stack) })
-        }).catch((err) => { bot.logger.error((err as Error).stack) })
-      }).catch((err) => { bot.logger.error((err as Error).stack) })
+          guildDB.save().catch((e) => bot.logger.error({
+            message: (e as Error).stack,
+            scope: 'Ready/Invites#execute'
+          }))
+        }).catch((e) => bot.logger.error({
+          message: (e as Error).stack,
+          scope: 'Ready/Invites#execute'
+        }))
+      }).catch((e) => bot.logger.error({
+        message: (e as Error).stack,
+        scope: 'Ready/Invites#execute'
+      }))
     })
   }
 }

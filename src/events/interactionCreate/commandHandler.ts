@@ -2,7 +2,7 @@ import { type Interaction } from 'discord.js'
 import type Bot from '../../bot'
 import { type Event } from '../eventHandler'
 
-export default class CommandHandler implements Event {
+export default class InteractionCreate implements Event {
   data = {
     enabled: true,
     once: false
@@ -17,8 +17,12 @@ export default class CommandHandler implements Event {
 
     try {
       await command.execute(bot, interaction)
-    } catch (error) {
-      bot.logger.error((error as Error).stack)
+    } catch (e) {
+      bot.logger.error({
+        message: (e as Error).stack,
+        scope: 'CommandHandler/CommandHandler#execute'
+      })
+
       if (interaction.replied || interaction.deferred) {
         await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true })
       } else {

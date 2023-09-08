@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, type ChatInputCommandInteraction, type ShardClientUtil } from 'discord.js'
 import type Bot from '../../bot'
 
-export default class {
+export default class Ping {
   data = new SlashCommandBuilder()
     .setName('ping')
     .setDescription('Mostra as informações da estabilidade do Twig')
@@ -33,7 +33,13 @@ export default class {
         `📡 | Shard ${(bot.client.shard as ShardClientUtil).ids[0] + 1}/${(bot.client.shard as ShardClientUtil).count}\n` +
         `⏱️ | Gateway Ping: \`${gateway}ms\`\n` +
         `⚡ | API Ping: \`${sent.createdTimestamp - interaction.createdTimestamp}ms\``
-      ).catch((err) => { bot.logger.error((err as Error).stack) })
-    }).catch((err) => { bot.logger.error((err as Error).stack) })
+      ).catch((e) => bot.logger.error({
+        message: (e as Error).stack,
+        scope: 'Misc/Ping#execute'
+      }))
+    }).catch((e) => bot.logger.error({
+      message: (e as Error).stack,
+      scope: 'Misc/Ping#execute'
+    }))
   };
 };

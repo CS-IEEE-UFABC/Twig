@@ -19,8 +19,8 @@ export default class Bot {
   constructor () {
     this.client = new Client({
       intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates,
-        GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.MessageContent, GatewayIntentBits.GuildInvites]
+        GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildInvites,
+        GatewayIntentBits.GuildMessageReactions]
     })
 
     this.logger = logger(this.client.shard?.ids[0].toString() as string)
@@ -33,7 +33,10 @@ export default class Bot {
   async login (token: string): Promise<void> {
     this.db = await database()
     this.client.login(token)
-      .catch((err) => { this.logger.error((err as Error).stack) })
+      .catch((e) => this.logger.error({
+        message: (e as Error).stack,
+        scope: 'Bot#login'
+      }))
   }
 }
 

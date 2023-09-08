@@ -13,6 +13,9 @@ export default class Invites implements Event {
       bot.invites.set(
         guild.id,
         new Collection(invites.map((invite) => [invite.code, invite.uses as number])))
-    }).catch((err) => { bot.logger.error((err as Error).stack) })
+    }).catch((e) => bot.logger.error({
+      message: (e as Error).stack,
+      scope: 'GuildCreate/Invites#execute'
+    }))
   }
 }

@@ -16,7 +16,13 @@ export default model('voluntario', new Schema({
     type: Map,
     of: {
       cargo: String,
-      projetos: [String],
+      projetos: [{
+        type: Map,
+        of: {
+          gestor: Boolean,
+          log: [[Number, Number]]
+        }
+      }],
       função: String,
       ativo: {
         type: Boolean,

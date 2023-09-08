@@ -15,7 +15,10 @@ export default class Roles implements Event {
           bot,
           Array.from(members.values())
         )
-      }).catch((err) => { bot.logger.error((err as Error).stack) })
+      }).catch((e) => bot.logger.error({
+        message: (e as Error).stack,
+        scope: 'Ready/Roles#execute'
+      }))
     })
   }
 }
