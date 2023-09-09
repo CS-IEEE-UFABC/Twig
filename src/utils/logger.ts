@@ -23,9 +23,12 @@ export default (clusterId: string): Logger => {
 
   if (process.env.NODE_ENV !== 'production') {
     logger.add(new transports.Console({
-      format: format.printf(({ level, message, scope, timestamp }) => {
-        return `${timestamp} [${clusterId}] (${level.toUpperCase()})${scope !== undefined ? ` {${scope}}` : ''}: ${message}`
-      }),
+      format: format.combine(
+        format.printf(({ level, message, scope, timestamp }) => {
+          return `${timestamp} [${clusterId}] (${level.toUpperCase()})${scope !== undefined ? ` {${scope}}` : ''}: ${message}`
+        }),
+        format.colorize({ all: true })
+      ),
       level: 'debug'
     }))
   }
