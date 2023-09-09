@@ -67,7 +67,7 @@ export default class EventHandler {
         }
       }
 
-      this.bot.logger.verbose({
+      this.bot.logger.debug({
         message: `Event '${eventName}/${eventFile}' was loaded.`,
         scope: 'EventHandler#load'
       })
