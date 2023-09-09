@@ -5,13 +5,13 @@ import { type Event } from '../eventHandler'
 export default class Hello implements Event {
   data = {
     enabled: true,
-    once: true
+    once: false
   }
 
   async execute (bot: Bot): Promise<void> {
     bot.logger.info({
       message: `Shard ${(bot.client.shard as ShardClientUtil).ids[0]} ready!`,
-      scope: 'Ready/Hello#execute'
+      scope: 'ShardReady/Hello#execute'
     })
   }
 }
