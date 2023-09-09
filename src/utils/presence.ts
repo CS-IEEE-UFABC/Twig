@@ -42,6 +42,11 @@ export default class Presenece {
     }
   }
 
+  reconnect (): void {
+    this.lastVC = ''
+    this.update(false)
+  }
+
   updateVCName (vc: VoiceChannel): void {
     if (vc.id === this.lastVC) {
       this.setPresence(vc.name, ActivityType.Watching)
@@ -54,6 +59,6 @@ export default class Presenece {
       status: 'idle'
     })
 
-    this.bot.logger.debug(`Presence updated '${Object.values(ActivityType)[(presence as ClientPresence).activities[0].type]} ${(presence as ClientPresence).activities[0].name}'`)
+    this.bot.logger.verbose(`Presence updated '${Object.values(ActivityType)[(presence as ClientPresence).activities[0].type]} ${(presence as ClientPresence).activities[0].name}'`)
   }
 }
