@@ -52,7 +52,7 @@ export default class CommandHandler {
     if ('data' in command && 'execute' in command) {
       this.commmands.set(command.data.name, command)
 
-      this.bot.logger.verbose({
+      this.bot.logger.debug({
         message: `Command '${commandCategory}/${commandFile}' was loaded.`,
         scope: 'CommandHandler#loadCommand'
       })
